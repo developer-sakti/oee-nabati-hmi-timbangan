@@ -1,8 +1,14 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
+import 'element-theme-default';
+import './css/tailwind.css';
 import './index.css';
 import App from './App';
 import * as serviceWorker from './serviceWorker';
+
+import { i18n } from 'element-react';
+import locale from 'element-react/src/locale/lang/en';
+i18n.use(locale);
 
 ReactDOM.render(<App />, document.getElementById('root'));
 

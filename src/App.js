@@ -1,25 +1,57 @@
-import React from 'react';
-import logo from './logo.svg';
-import './App.css';
+import React, { useReducer, useEffect } from 'react';
+import Header from './components/header';
+import Column from './components/column';
+import Content from './components/content';
+import { Context, Reducer, Store } from './context/reducers';
+import moment from 'moment-timezone';
+import api from './helpers/api';
 
-function App() {
+const App = () => {
+  const [store, dispatch] = useReducer(Reducer, Store);
+
+  const getMachines = async () => {
+    await api.API_MAIN.get('machine')
+      .then(res => dispatch({ type: 'set_machines', value: res.data }))
+      .catch(err => console.error(err))
+  };
+
+  const getLines = async () => {
+    await api.API_MAIN.get('line')
+      .then(res => dispatch({ type: 'set_lines', value: res.data }))
+      .catch(err => console.error(err))
+  };
+
+  const getCategories = async () => {
+    await api.API_MAIN.get('badstock-category')
+      .then(res => dispatch({ type: 'set_categories', value: res.data }))
+      .catch(err => console.error(err))
+  };
+
+  useEffect(() => {
+    let time = setInterval(() => dispatch({ type: 'set_time', value: moment().format(`HH:mm:ss`) }), 1000);
+    let connection = setInterval(async () => {
+      await api.API_MAIN.get('line')
+        .then(() => dispatch({ type: 'set_connection', value: true }))
+        .catch(() => dispatch({ type: 'set_connection', value: false }))
+    }, 5000);
+
+    getMachines();
+    getLines();
+    getCategories();
+
+    return () => {
+      clearInterval(time);
+      clearInterval(connection);
+      time = connection = null;
+    };
+  }, [])
+
   return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
-    </div>
+    <Context.Provider value={{ store, dispatch }}>
+      <Header/>
+      <Column/>
+      <Content/>
+    </Context.Provider>
   );
 }
 
