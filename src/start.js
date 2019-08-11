@@ -11,7 +11,10 @@ function createWindow() {
   mainWindow = new BrowserWindow({ 
     width: 800, 
     height: 480,
-    autoHideMenuBar: true
+    autoHideMenuBar: true,
+    webPreferences: {
+      nodeIntegration: true
+    }
   })
 
   mainWindow.loadURL(

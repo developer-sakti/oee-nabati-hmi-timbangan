@@ -1,7 +1,6 @@
-import React, { useContext } from 'react';
+import React, { useContext, useEffect } from 'react';
 import { Button, Message, MessageBox } from 'element-react';
 import { Context } from '../context/reducers';
-
 
 const Weight = () => {
     const { store, dispatch } = useContext(Context);
@@ -28,6 +27,9 @@ const Weight = () => {
             });
         });
     }
+
+    useEffect(() => {
+    }, [])
 
     return (
         <React.Fragment>
