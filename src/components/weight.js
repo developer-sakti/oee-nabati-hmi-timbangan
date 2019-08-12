@@ -1,6 +1,9 @@
 import React, { useContext, useEffect } from 'react';
 import { Button, Message, MessageBox } from 'element-react';
 import { Context } from '../context/reducers';
+import io from 'socket.io-client';
+
+const socket = io('http://localhost:9552');
 
 const Weight = () => {
     const { store, dispatch } = useContext(Context);
@@ -29,6 +32,7 @@ const Weight = () => {
     }
 
     useEffect(() => {
+        socket.on('weight_streaming', (msg) => dispatch({ type: 'set_weight', value: msg }));
     }, [])
 
     return (
