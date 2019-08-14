@@ -9,28 +9,28 @@ import api from './helpers/api';
 const App = () => {
   const [store, dispatch] = useReducer(Reducer, Store);
 
-  const getMachines = async () => {
-    await api.API_MAIN.get('machine')
+  const getMachines = () => {
+    api.API_MAIN.get('machine')
       .then(res => dispatch({ type: 'set_machines', value: res.data }))
       .catch(err => console.error(err))
   };
 
-  const getLines = async () => {
-    await api.API_MAIN.get('line')
+  const getLines = () => {
+    api.API_MAIN.get('line')
       .then(res => dispatch({ type: 'set_lines', value: res.data }))
       .catch(err => console.error(err))
   };
 
-  const getCategories = async () => {
-    await api.API_MAIN.get('badstock-category')
+  const getCategories = () => {
+    api.API_MAIN.get('badstock-category')
       .then(res => dispatch({ type: 'set_categories', value: res.data }))
       .catch(err => console.error(err))
   };
 
   useEffect(() => {
     let time = setInterval(() => dispatch({ type: 'set_time', value: moment().format(`HH:mm:ss`) }), 1000);
-    let connection = setInterval(async () => {
-      await api.API_MAIN.get('line')
+    let connection = setInterval(() => {
+      api.API_MAIN.get('line')
         .then(() => dispatch({ type: 'set_connection', value: true }))
         .catch(() => dispatch({ type: 'set_connection', value: false }))
     }, 5000);

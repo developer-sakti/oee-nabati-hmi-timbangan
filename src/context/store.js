@@ -7,7 +7,8 @@ const State = {
     selectedMachine: '',
     selectedLine: '',
     selectedCategory: '',
-    weight: 0
+    selectedProductionPlan: {},
+    weight: 1
 };
 
 export default State;

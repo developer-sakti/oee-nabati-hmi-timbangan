@@ -20,12 +20,15 @@ const Reducer = (state, action) => {
             return { ...state, selectedCategory: action.value };
         case 'set_weight':
             return { ...state, weight: action.value };
+        case 'set_selected_production_plan':
+            return { ...state, selectedProductionPlan: action.value };
         case 'clear_input':
             return { ...state, 
                 selectedMachine: '',
                 selectedLine: '',
                 selectedCategory: '',
-                weight: 0
+                selectedProductionPlan: {},
+                weight: 1
             }
         default:
             return state;

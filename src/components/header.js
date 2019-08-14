@@ -19,10 +19,10 @@ const Connected = () => {
 };
 
 const Header = () => {
-    const { store, dispatch } = useContext(Context);
+    const { store } = useContext(Context);
 
     return (
-    <Layout.Row gutter="2" className="select-none">
+    <Layout.Row gutter="2" className="select-none mt-4">
         <Layout.Col span="6" offset="3">
         <div className="bg-blue-600 p-2 text-center uppercase text-white font-bold rounded border-solid border-2 border-blue-600">
             timbangan

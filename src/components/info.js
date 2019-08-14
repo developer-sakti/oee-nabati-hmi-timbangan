@@ -1,9 +1,31 @@
 import React, { useContext } from 'react';
-import { Select } from 'element-react';
+import { Select, MessageBox } from 'element-react';
 import { Context } from '../context/reducers';
+import api from '../helpers/api';
+import moment from 'moment-timezone';
 
 const Info = () => {
     const { store, dispatch } = useContext(Context);
+
+    const productionPlanningNotFound = () => {
+        MessageBox.alert(`Tidak ada PO Aktif pada line tersebut`);
+    }
+
+    const selectLine = (line_id) => {
+        api.API_MAIN.get(`rencana-produksi/active?date=${moment().format(`YYYY-MM-DD`)}&time=${store.time}&line_id=${line_id}`)
+            .then(({ data }) => {
+                if (data) {
+                    dispatch({ type: 'set_selected_production_plan', value: data })
+                } else {
+                    productionPlanningNotFound();
+                }
+            })
+            .catch(err => {
+                console.error(err);
+            });
+
+        dispatch({ type: 'set_selected_line', value: line_id });
+    }
 
     return (
     <React.Fragment>
@@ -25,7 +47,7 @@ const Info = () => {
         <div className="font-bold">Line</div>
         <div>
             <Select placeholder="Pilih line" size="large" value={store.selectedLine} 
-                onChange={e => dispatch({ type: 'set_selected_line', value: e })}
+                onChange={e => selectLine(e)}
                 loading={store.lines.length < 1}>
                 {
                     store.lines.map(el => {

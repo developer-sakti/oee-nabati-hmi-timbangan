@@ -2,6 +2,7 @@ import React, { useContext, useEffect } from 'react';
 import { Button, Message, MessageBox } from 'element-react';
 import { Context } from '../context/reducers';
 import io from 'socket.io-client';
+import api from '../helpers/api';
 
 const socket = io('http://localhost:9552');
 
@@ -17,12 +18,22 @@ const Weight = () => {
             cancelButtonText: 'Batal',
             type: 'warning'
         }).then(() => {
-            Message({
-                type: 'success',
-                message: 'Berhasil dikirim!'
-            });
-            
-            dispatch({ type: 'clear_input' });
+            api.API_MAIN.post('badstock/timbangan', {
+                "weight": store.weight,
+                "rencanaProduksiId": store.selectedProductionPlan.id,
+                "machineId": store.selectedMachine,
+                "badstockCategoryId": store.selectedCategory
+            }).then(res => {
+                    if(res.data.success) {
+                        Message({
+                            type: 'success',
+                            message: 'Berhasil dikirim!'
+                        });
+                        
+                        dispatch({ type: 'clear_input' });
+                    }
+                })
+                .catch(err => console.error(err));
         }).catch(() => {
             Message({
                 type: 'info',
@@ -46,7 +57,9 @@ const Weight = () => {
                 <Button type="warning" size="large"
                     icon="circle-check"
                     className="w-4/5" onClick={confirm} 
-                    disabled={!store.selectedMachine || !store.selectedLine || !store.selectedCategory}>Kirim</Button>
+                    disabled={!store.selectedMachine || !store.selectedLine || !store.selectedCategory || !store.selectedProductionPlan}>
+                        Kirim
+                    </Button>
             </div>
         </div>
         </React.Fragment>
