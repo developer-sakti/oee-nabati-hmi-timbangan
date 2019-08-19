@@ -20,8 +20,6 @@
     "build": "react-scripts build",
     "test": "react-scripts test --env=jsdom",
     "eject": "react-scripts eject",
-    "electron": "electron .",
-    "electron-start": "node src/start-react",
     "react-start": "react-scripts start",
     "pack": "build --dir",
     "dist": "npm run build && build",

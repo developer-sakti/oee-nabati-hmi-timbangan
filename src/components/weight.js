@@ -44,7 +44,7 @@ const Weight = () => {
 
     useEffect(() => {
         socket.on('weight_streaming', (msg) => dispatch({ type: 'set_weight', value: msg }));
-    }, [])
+    }, [dispatch])
 
     return (
         <React.Fragment>
