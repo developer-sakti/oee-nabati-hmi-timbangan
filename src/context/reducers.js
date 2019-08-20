@@ -10,6 +10,8 @@ const Reducer = (state, action) => {
             return { ...state, machines: action.value };
         case 'set_lines':
             return { ...state, lines: action.value };
+        case 'set_shifts':
+            return { ...state, shifts: action.value };
         case 'set_categories':
             return { ...state, categories: action.value };
         case 'set_selected_machine':
@@ -18,6 +20,10 @@ const Reducer = (state, action) => {
             return { ...state, selectedLine: action.value };
         case 'set_selected_category':
             return { ...state, selectedCategory: action.value };
+        case 'set_selected_date':
+            return { ...state, selectedDate: action.value };
+        case 'set_selected_shift':
+            return { ...state, selectedShift: action.value };
         case 'set_weight':
             return { ...state, weight: action.value };
         case 'set_selected_production_plan':
@@ -28,6 +34,8 @@ const Reducer = (state, action) => {
                 selectedLine: '',
                 selectedCategory: '',
                 selectedProductionPlan: {},
+                selectedShift: '',
+                selectedDate: '',
                 weight: 1
             }
         default:

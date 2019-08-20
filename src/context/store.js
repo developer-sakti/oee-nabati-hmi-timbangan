@@ -8,6 +8,9 @@ const State = {
     selectedLine: '',
     selectedCategory: '',
     selectedProductionPlan: {},
+    selectedDate: '',
+    selectedShift: '',
+    shifts: [],
     weight: 1
 };
 

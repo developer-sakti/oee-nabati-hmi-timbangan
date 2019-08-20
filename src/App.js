@@ -15,6 +15,12 @@ const App = () => {
       .catch(err => console.error(err))
   };
 
+  const getShift = () => {
+    api.API_MAIN.get('initial-shift')
+      .then(res => dispatch({ type: 'set_shifts', value: res.data }))
+      .catch(err => console.error(err))
+  }
+
   const getLines = () => {
     api.API_MAIN.get('line')
       .then(res => dispatch({ type: 'set_lines', value: res.data }))
@@ -38,6 +44,7 @@ const App = () => {
     getMachines();
     getLines();
     getCategories();
+    getShift();
 
     return () => {
       clearInterval(time);
