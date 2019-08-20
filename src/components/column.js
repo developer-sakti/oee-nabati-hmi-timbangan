@@ -8,10 +8,10 @@ const Column = () => {
           <div className="uppercase font-bold bg-blue-600 p-2 rounded-l-lg text-center text-white">info</div>
         </Layout.Col>
         <Layout.Col span="8">
-          <div className="uppercase font-bold bg-blue-600 p-2 text-center text-white">berat</div>
+          <div className="uppercase font-bold bg-blue-600 p-2 text-center text-white">weight</div>
         </Layout.Col>
         <Layout.Col span="8">
-          <div className="uppercase font-bold bg-blue-600 p-2 rounded-r-lg text-center text-white">histori</div>
+          <div className="uppercase font-bold bg-blue-600 p-2 rounded-r-lg text-center text-white">history</div>
         </Layout.Col>
     </Layout.Row>
     );

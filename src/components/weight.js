@@ -15,7 +15,7 @@ const Weight = () => {
 
         MessageBox.confirm(`Dengan ini akan dikirimkan data sebagai berikut: Mesin ${machine}, ${line}, Kategori ${category}, dan Berat ${store.weight} Kg. apakah sudah benar ?`, 'Warning', {
             confirmButtonText: 'OK',
-            cancelButtonText: 'Batal',
+            cancelButtonText: 'Cancel',
             type: 'warning'
         }).then(() => {
             api.API_MAIN.post('badstock/timbangan', {
@@ -27,7 +27,7 @@ const Weight = () => {
                     if(res.data.success) {
                         Message({
                             type: 'success',
-                            message: 'Berhasil dikirim!'
+                            message: 'Sent!'
                         });
                         
                         dispatch({ type: 'clear_input' });
@@ -37,7 +37,7 @@ const Weight = () => {
         }).catch(() => {
             Message({
                 type: 'info',
-                message: 'Dibatalkan'
+                message: 'Canceled'
             });
         });
     }
@@ -49,7 +49,7 @@ const Weight = () => {
     return (
         <React.Fragment>
         <div className="ml-4">
-            <div className="font-bold">Berat (Kg)</div>
+            <div className="font-bold">Weight (Kg)</div>
             <div className="p-2 w-4/5 text-2xl text-center border font-bold h rounded border-gray-500">
                 {store.weight}
             </div>
@@ -58,7 +58,7 @@ const Weight = () => {
                     icon="circle-check"
                     className="w-4/5" onClick={confirm} 
                     disabled={!store.selectedMachine || !store.selectedLine || !store.selectedCategory || !store.selectedProductionPlan}>
-                        Kirim
+                        Send
                     </Button>
             </div>
         </div>
