@@ -9,6 +9,18 @@ import api from './helpers/api';
 const App = () => {
   const [store, dispatch] = useReducer(Reducer, Store);
 
+  const auth = () => {
+    api.API_MAIN.post('auth/login', {
+      "username": "operator",
+      "password": "operator",
+      "roleId": 2
+    }).then(res => {
+      console.log(res)
+    }).catch(err => {
+      console.error(err)
+    });
+  }
+
   const getMachines = () => {
     api.API_MAIN.get('machine')
       .then(res => dispatch({ type: 'set_machines', value: res.data }))
@@ -45,6 +57,9 @@ const App = () => {
     getLines();
     getCategories();
     getShift();
+    if (!localStorage.getItem('token')) {
+      auth();
+    }
 
     return () => {
       clearInterval(time);
