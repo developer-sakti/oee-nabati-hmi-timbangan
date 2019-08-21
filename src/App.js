@@ -15,7 +15,12 @@ const App = () => {
       "password": "operator",
       "roleId": 2
     }).then(res => {
-      console.log(res)
+      localStorage.setItem('token', res.data.accessToken)
+    
+      getMachines();
+      getLines();
+      getCategories(res.data.accessToken);
+      getShift();
     }).catch(err => {
       console.error(err)
     });
@@ -39,8 +44,12 @@ const App = () => {
       .catch(err => console.error(err))
   };
 
-  const getCategories = () => {
-    api.API_MAIN.get('badstock-category')
+  const getCategories = (token) => {
+    api.API_MAIN.get('badstock-category', {
+      headers: {
+        'Authorization': `Bearer ${token}`
+      }
+    })
       .then(res => dispatch({ type: 'set_categories', value: res.data }))
       .catch(err => console.error(err))
   };
@@ -53,12 +62,13 @@ const App = () => {
         .catch(() => dispatch({ type: 'set_connection', value: false }))
     }, 5000);
 
-    getMachines();
-    getLines();
-    getCategories();
-    getShift();
     if (!localStorage.getItem('token')) {
       auth();
+    } else {
+      getMachines();
+      getLines();
+      getCategories(localStorage.getItem('token'));
+      getShift();
     }
 
     return () => {

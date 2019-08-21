@@ -12,9 +12,13 @@ const Info = () => {
     }
 
     const selectLine = (line_id) => {
-        api.API_MAIN.get(`rencana-produksi/find/shift?date=${moment(store.selectedDate).format(`YYYY-MM-DD`)}&shift_id=${store.selectedShift}&line_id=${line_id}`)
+        api.API_MAIN.get(`rencana-produksi/find/shift?date=${moment(store.selectedDate).format(`YYYY-MM-DD`)}&shift_id=${store.selectedShift}&line_id=${line_id}`, {
+            headers: {
+                'Authorization': `Bearer ${localStorage.getItem('token')}`
+            }
+        })
             .then(({ data }) => {
-                if (data) {
+                if (data.length > 0) {
                     dispatch({ type: 'set_selected_production_plan', value: data })
                 } else {
                     productionPlanningNotFound();
