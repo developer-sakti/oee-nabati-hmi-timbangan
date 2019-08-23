@@ -14,7 +14,7 @@ const Info = () => {
     const selectLine = (line_id) => {
         api.API_MAIN.get(`rencana-produksi/find/shift?date=${moment(store.selectedDate).format(`YYYY-MM-DD`)}&shift_id=${store.selectedShift}&line_id=${line_id}`, {
             headers: {
-                'Authorization': `Bearer ${localStorage.getItem('token')}`
+                'Authorization': `bearer ${localStorage.getItem('token')}`
             }
         })
             .then(({ data }) => {
