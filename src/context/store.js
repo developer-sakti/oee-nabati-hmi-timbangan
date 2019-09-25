@@ -10,7 +10,10 @@ const State = {
     selectedProductionPlan: {},
     selectedDate: '',
     selectedShift: '',
+    selectedPro: '',
     shifts: [],
+    pros: [],
+    histories: [],
     weight: 1
 };
 

@@ -21,15 +21,26 @@ const App = () => {
       getLines();
       getCategories(res.data.accessToken);
       getShift();
+      getHistory(res.data.accessToken);
     }).catch(err => {
       console.error(err)
     });
   }
 
+  const getHistory = (token) => {
+    api.API_MAIN.get(`badstock/timbangan/history?date=${moment().format('YYYY-MM-DD')}`, {
+      headers: {
+        'Authorization': `bearer ${token}`
+      }
+    })
+      .then(res => dispatch({ type: 'set_histories', value: res.data }))
+      .catch(err => console.err(err));
+  }
+
   const getMachines = () => {
     api.API_MAIN.get('machine')
       .then(res => dispatch({ type: 'set_machines', value: res.data }))
-      .catch(err => console.error(err))
+      .catch(err => console.error(err));
   };
 
   const getShift = () => {
@@ -47,7 +58,7 @@ const App = () => {
   const getCategories = (token) => {
     api.API_MAIN.get('badstock-category', {
       headers: {
-        'Authorization': `Bearer ${token}`
+        'Authorization': `bearer ${token}`
       }
     })
       .then(res => dispatch({ type: 'set_categories', value: res.data }))
@@ -60,6 +71,7 @@ const App = () => {
       api.API_MAIN.get('line')
         .then(() => dispatch({ type: 'set_connection', value: true }))
         .catch(() => dispatch({ type: 'set_connection', value: false }))
+      getHistory(localStorage.getItem('token'));
     }, 5000);
 
     if (!localStorage.getItem('token')) {
@@ -69,6 +81,7 @@ const App = () => {
       getLines();
       getCategories(localStorage.getItem('token'));
       getShift();
+      getHistory(localStorage.getItem('token'));
     }
 
     return () => {

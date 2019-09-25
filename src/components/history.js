@@ -1,81 +1,37 @@
-import React from 'react';
+import React, { useContext } from 'react';
+import { Context } from '../context/reducers';
+import moment from 'moment-timezone';
 
 const History = () => {
+    const { store, dispatch } = useContext(Context);
+
     return (
         <React.Fragment>
-        <div className="rounded overflow-auto mt-2 h-56 p-2 border border-blue-600 w-full">
-            <div className="mb-2 border-b-2 border-blue-600">
+        <div className="rounded overflow-auto mt-2 h-64 p-2 border border-blue-600 w-full">
+            {store.histories.map((d, i) => <div key={i} className="mb-2 border-b-2 border-blue-600">
                 <table className="m-0 p-0">
                     <tbody>
                         <tr>
-                            <td>1.</td>
-                            <td>Baking</td>
+                            <td>{i+1}.</td>
+                            <td>{d.machine.name}</td>
                             <td>|</td>
-                            <td>Bubble</td>
+                            <td>{d.badstock_category.category}</td>
                         </tr>
                         <tr>
                             <td></td>
-                            <td>Line 13</td>
+                            <td>{store.lines.filter(x => x.id === d.rencana_produksi.lineId)[0].name}</td>
                             <td></td>
                             <td></td>
                         </tr>
                         <tr>
                             <td></td>
-                            <td>03 Juni 2019</td>
+                            <td>{moment(d.created_at).tz('utc').format('DD MM YYYY')}</td>
                             <td>|</td>
-                            <td>10:00</td>
+                            <td>{moment(d.created_at).tz('utc').format('HH:mm:ss')}</td>
                         </tr>
                     </tbody>
                 </table>
-            </div>
-            <div className="mb-2 border-b-2 border-blue-600">
-                <table className="m-0 p-0">
-                    <tbody>
-                        <tr>
-                            <td>2.</td>
-                            <td>Baking</td>
-                            <td>|</td>
-                            <td>Bubble</td>
-                        </tr>
-                        <tr>
-                            <td></td>
-                            <td>Line 13</td>
-                            <td></td>
-                            <td></td>
-                        </tr>
-                        <tr>
-                            <td></td>
-                            <td>03 Juni 2019</td>
-                            <td>|</td>
-                            <td>10:00</td>
-                        </tr>
-                    </tbody>
-                </table>
-            </div>
-            <div className="mb-2 border-b-2 border-blue-600">
-                <table className="m-0 p-0">
-                    <tbody>
-                        <tr>
-                            <td>3.</td>
-                            <td>Baking</td>
-                            <td>|</td>
-                            <td>Bubble</td>
-                        </tr>
-                        <tr>
-                            <td></td>
-                            <td>Line 13</td>
-                            <td></td>
-                            <td></td>
-                        </tr>
-                        <tr>
-                            <td></td>
-                            <td>03 Juni 2019</td>
-                            <td>|</td>
-                            <td>10:00</td>
-                        </tr>
-                    </tbody>
-                </table>
-            </div>
+            </div>)}
           </div>
         </React.Fragment>
     );

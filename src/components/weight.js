@@ -3,11 +3,23 @@ import { Button, Message, MessageBox } from 'element-react';
 import { Context } from '../context/reducers';
 import io from 'socket.io-client';
 import api from '../helpers/api';
+import moment from 'moment-timezone';
 
 const socket = io('http://localhost:9552');
 
 const Weight = () => {
     const { store, dispatch } = useContext(Context);
+
+    const getHistory = (token) => {
+        api.API_MAIN.get(`badstock/timbangan/history?date=${moment().format('YYYY-MM-DD')}`, {
+            headers: {
+            'Authorization': `bearer ${token}`
+            }
+        })
+            .then(res => dispatch({ type: 'set_histories', value: res.data }))
+            .catch(err => console.err(err));
+        }
+
     const confirm = () => {
         let machine = store.machines.filter(x => x.id === store.selectedMachine)[0].name;
         let line = store.lines.filter(x => x.id === store.selectedLine)[0].name;
@@ -19,8 +31,8 @@ const Weight = () => {
             type: 'warning'
         }).then(() => {
             api.API_MAIN.post('badstock/timbangan', {
-                "weight": store.weight,
-                "rencanaProduksiId": store.selectedProductionPlan.id,
+                "weight_kg": store.weight,
+                "rencanaProduksiId": store.selectedPro,
                 "machineId": store.selectedMachine,
                 "badstockCategoryId": store.selectedCategory
             }).then(res => {
@@ -29,6 +41,8 @@ const Weight = () => {
                             type: 'success',
                             message: 'Sent!'
                         });
+
+                        getHistory(localStorage.getItem('token'));
                         
                         dispatch({ type: 'clear_input' });
                     }

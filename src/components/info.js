@@ -1,5 +1,5 @@
 import React, { useContext } from 'react';
-import { Select, MessageBox, DatePicker } from 'element-react';
+import { Select, MessageBox, DatePicker, Layout } from 'element-react';
 import { Context } from '../context/reducers';
 import api from '../helpers/api';
 import moment from 'moment-timezone';
@@ -19,7 +19,7 @@ const Info = () => {
         })
             .then(({ data }) => {
                 if (data.length > 0) {
-                    dispatch({ type: 'set_selected_production_plan', value: data })
+                    dispatch({ type: 'set_pros', value: data })
                 } else {
                     productionPlanningNotFound();
                     dispatch({ type: 'clear_input' });
@@ -47,52 +47,76 @@ const Info = () => {
             />
         </div>
     </div>
-    <div>
-        <div className="font-bold">Shift</div>
-        <div>
-            <Select placeholder="Select shift" size="large" value={store.selectedShift} 
-                onChange={e => dispatch({ type: 'set_selected_shift', value: e })}
-                loading={store.shifts.length < 1}>
-                {
-                    store.shifts.map(el => {
-                        return <Select.Option key={el.id} label={el.shift_name} value={el.id} />
-                    })
-                }
-            </Select>
-        </div>
-    </div>
-    <div>
-        <div className="font-bold">Line</div>
-        <div>
-            <Select placeholder="Select line" size="large" value={store.selectedLine} 
-                onChange={e => selectLine(e)}
-                loading={store.lines.length < 1}>
-                {
-                    store.lines.map(el => {
-                        return <Select.Option key={el.id} label={el.name} value={el.id} />
-                    })
-                }
-            </Select>
-        </div>
-    </div>   
-    <div>
-        <div className="font-bold">Machine</div>
-        <div>
-            <Select placeholder="Select mesin" size="large" value={store.selectedMachine} 
-                onChange={e => dispatch({ type: 'set_selected_machine', value: e })}
-                loading={store.machines.length < 1}>
-                {
-                    store.machines.map(el => {
-                        return <Select.Option key={el.id} label={el.name} value={el.id} />
-                    })
-                }
-            </Select>
-        </div>
-    </div>
+    <Layout.Row>
+        <Layout.Col span="8">
+            <div className="font-bold">Shift</div>
+            <div>
+                <Select disabled={!store.selectedDate} placeholder="Select shift" size="large" value={store.selectedShift} 
+                    onChange={e => dispatch({ type: 'set_selected_shift', value: e })}
+                    loading={store.shifts.length < 1}>
+                    {
+                        store.shifts.map(el => {
+                            return <Select.Option key={el.id} label={el.shift_name} value={el.id} />
+                        })
+                    }
+                </Select>
+            </div>
+        </Layout.Col>
+        <Layout.Col span="8">
+            <div className="ml-2">
+                <div className="font-bold">Line</div>
+                <div>
+                    <Select disabled={!store.selectedShift} placeholder="Select line" size="large" value={store.selectedLine} 
+                        onChange={e => selectLine(e)}
+                        loading={store.lines.length < 1}>
+                        {
+                            store.lines.map(el => {
+                                return <Select.Option key={el.id} label={el.name} value={el.id} />
+                            })
+                        }
+                    </Select>
+                </div>
+            </div>
+        </Layout.Col>
+    </Layout.Row>
+    <Layout.Row>
+        <Layout.Col span="8">
+            <div className="font-bold">PrO</div>
+                <div>
+                    <Select disabled={store.pros.length < 1} placeholder="Select PrO" size="large" value={store.selectedPro} 
+                        onChange={e => {
+                            dispatch({ type: 'set_selected_pro', value: e })
+                        }}
+                        loading={store.pros.length < 1}>
+                        {
+                            store.pros.map(el => {
+                                return <Select.Option key={el.id} label={el.po_number} value={el.id} />
+                            })
+                        }
+                    </Select>
+                </div>
+        </Layout.Col>
+        <Layout.Col span="8">
+            <div className="ml-2">
+                <div className="font-bold">Machine</div>
+                <div>
+                    <Select disabled={!store.selectedPro} placeholder="Select mesin" size="large" value={store.selectedMachine} 
+                        onChange={e => dispatch({ type: 'set_selected_machine', value: e })}
+                        loading={store.machines.length < 1}>
+                        {
+                            store.machines.map(el => {
+                                return <Select.Option key={el.id} label={el.name} value={el.id} />
+                            })
+                        }
+                    </Select>
+                </div>
+            </div>
+        </Layout.Col>
+    </Layout.Row>
     <div>
         <div className="font-bold">Category</div>
         <div>
-            <Select placeholder="Select kategori" size="large" value={store.selectedCategory} 
+            <Select disabled={!store.selectedMachine} placeholder="Select kategori" size="large" value={store.selectedCategory} 
                 onChange={e => dispatch({ type: 'set_selected_category', value: e })}
                 loading={store.lines.length < 1}>
                 {

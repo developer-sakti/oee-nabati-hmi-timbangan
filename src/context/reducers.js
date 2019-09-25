@@ -28,6 +28,12 @@ const Reducer = (state, action) => {
             return { ...state, weight: action.value };
         case 'set_selected_production_plan':
             return { ...state, selectedProductionPlan: action.value };
+        case 'set_selected_pro':
+            return { ...state, selectedPro: action.value };
+        case 'set_pros':
+            return { ...state, pros: action.value };
+        case 'set_histories':
+            return { ...state, histories: action.value };
         case 'clear_input':
             return { ...state, 
                 selectedMachine: '',
@@ -36,6 +42,8 @@ const Reducer = (state, action) => {
                 selectedProductionPlan: {},
                 selectedShift: '',
                 selectedDate: '',
+                selectedPro: '',
+                pros: [],
                 weight: 1
             }
         default:
