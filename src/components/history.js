@@ -3,7 +3,7 @@ import { Context } from '../context/reducers';
 import moment from 'moment-timezone';
 
 const History = () => {
-    const { store, dispatch } = useContext(Context);
+    const { store } = useContext(Context);
 
     return (
         <React.Fragment>

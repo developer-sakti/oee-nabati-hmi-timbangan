@@ -34,7 +34,7 @@ const App = () => {
       }
     })
       .then(res => dispatch({ type: 'set_histories', value: res.data }))
-      .catch(err => console.err(err));
+      .catch(err => console.error(err));
   }
 
   const getMachines = () => {
