@@ -81,9 +81,9 @@ const Info = () => {
     </Layout.Row>
     <Layout.Row>
         <Layout.Col span="8">
-            <div className="font-bold">PrO</div>
+            <div className="font-bold">IO</div>
                 <div>
-                    <Select disabled={store.pros.length < 1} placeholder="Select PrO" size="large" value={store.selectedPro} 
+                    <Select disabled={store.pros.length < 1} placeholder="Select IO" size="large" value={store.selectedPro} 
                         onChange={e => {
                             dispatch({ type: 'set_selected_pro', value: e })
                         }}
